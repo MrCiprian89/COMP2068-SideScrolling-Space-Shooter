@@ -14,17 +14,21 @@ var assetLoader: createjs.LoadQueue;
 
 //Game objects
 var plane: objects.Plane;
-var island: objects.Island;
-var clouds: objects.Cloud[] = [];
-var ocean: objects.Ocean;
+var collectible: objects.Island;
+var enemies: objects.Cloud[] = [];
+var sky: objects.Ocean;
 
 // asset manifest - array of asset objects
 var manifest = [
-    { id: "cloud", src: "assets/images/cloud.png" },
-    { id: "island", src: "assets/images/island.png" },
-    { id: "ocean", src: "assets/images/ocean.gif" },
-    { id: "plane", src: "assets/images/plane.png" }
+    { id: "enemy", src: "assets/images/enemy.png" },
+    { id: "collectible", src: "assets/images/collectible.png" },
+    { id: "background", src: "assets/images/sky.png" },
+    { id: "plane", src: "assets/images/plane.png" },
+    { id: "engine", src: "assets/audio/engine.ogg" },
+    { id: "collect", src: "assets/audio/yay.ogg" },
+    { id: "damage", src: "assets/audio/thunder.ogg" }
 ];
+
 
 // Game Objects 
 function preload() {
@@ -47,11 +51,11 @@ function init() {
 function gameLoop() {
     stage.update(); // Refreshes our stage
     plane.update(); //updates plane's position
-    island.update(); //updates island's position
-    ocean.update(); //updates ocean's position
+    collectible.update(); //updates island's position
+    sky.update(); //updates ocean's position
 
     for (var cloud = 3; cloud > 0; cloud--) {
-        clouds[cloud].update(); //updates cloud's position
+        enemies[cloud].update(); //updates cloud's position
     } //for ends
 } //function gameLoop ends
 
@@ -59,12 +63,12 @@ function gameLoop() {
 // Our Game Kicks off in here
 function main() {
     //add ocean to game
-    ocean = new objects.Ocean();
-    stage.addChild(ocean);
+    sky = new objects.Ocean();
+    stage.addChild(sky);
 
     //add island to game
-    island = new objects.Island();
-    stage.addChild(island);
+    collectible = new objects.Island();
+    stage.addChild(collectible);
 
     //add plane to game
     plane = new objects.Plane();
@@ -72,7 +76,7 @@ function main() {
 
     //add clouds to game
     for (var cloud = 3; cloud > 0; cloud--) {
-        clouds[cloud] = new objects.Cloud(); //updates cloud's position
-        stage.addChild(clouds[cloud]);
+        enemies[cloud] = new objects.Cloud(); //updates cloud's position
+        stage.addChild(enemies[cloud]);
     } //for ends
 } //function main ends

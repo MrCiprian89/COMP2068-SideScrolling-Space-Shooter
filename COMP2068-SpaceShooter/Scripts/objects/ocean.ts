@@ -1,36 +1,32 @@
 ﻿module objects {
-    export class Ocean extends createjs.Bitmap {
-        //instance variables
-        public width;
-        public height;
-        private _dy = 5;
+    export class Ocean extends objects.GameObject {
 
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
-            super(assetLoader.getResult("ocean"));
-
-            this.width = this.getBounds().width;
-            this.height = this.getBounds().height;
-
+            super("background");
+            this._dx = 5;
             this._reset();
+            this.regX = this.getBounds().width;
         } //constructor ends
 
         //Private Methods/////////////////////////////////////////////////////////////////////////
         private _reset() {
-            this.x = 0;
-            this.y = -960;
+            //set x to a random number
+            this.y = 0;
+            this.x = 2952;
         } //method reset ends
 
+        //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
-            if (this.y >= 0) {
+            if (this.x < 980) {
                 this._reset();
             } //if ends
         } //method checkBounds ends
+
         //Public Methods//////////////////////////////////////////////////////////////////////////
         update() {
-            this.y += this._dy;
-
+            this.x -= this._dx;
             this._checkBounds();
         } //method update ends
     } //class Plane ends
-} //module objects ends   
+} //module objects ends  

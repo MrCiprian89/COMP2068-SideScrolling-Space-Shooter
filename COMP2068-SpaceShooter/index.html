@@ -7,7 +7,7 @@
     <!-- CSS Section -->
     <link href="css/game.css" rel="stylesheet" />
 </head>
-<body>
+<body onload="preload()">
     <!-- Canvas where the Game will Happen-->
     <canvas id="canvas" width="640" height="480"></canvas>
 
@@ -18,6 +18,7 @@
     <script src="Scripts/lib/preloadjs-0.6.0.min.js"></script>
 
     <!--Game Scripts-->
+    <script src="Scripts/objects/gameObjects.js"></script>
     <script src="Scripts/objects/plane.js"></script>
     <script src="Scripts/objects/island.js"></script>
     <script src="Scripts/objects/cloud.js"></script>

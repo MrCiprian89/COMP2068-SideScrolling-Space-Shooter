@@ -1,44 +1,34 @@
 ﻿module objects {
-    export class Cloud extends createjs.Bitmap {
-        //instance variables
-        public width;
-        public height;
-        private _dx;
-        private _dy;
 
+    export class Cloud extends objects.GameObject {
+  
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
-            super(assetLoader.getResult("cloud"));
-
-            this.width = this.getBounds().width;
-            this.height = this.getBounds().height;
-
-            this.regX = this.getBounds().width * 0.5;
-            this.regY = this.getBounds().height * 0.5;
-
+            super("enemy");
+            this._dx = 5;
+            this.soundString = "damage";
             this._reset();
         } //constructor ends
 
         //Private Methods/////////////////////////////////////////////////////////////////////////
         private _reset() {
             //set x to a random number
-            this.x = Math.floor(Math.random() * 640);
-            this.y = -this.width;
-
-            this._dy = Math.floor(Math.random() * 5) + 5;
-            this._dx = Math.floor(Math.random() * -4) + 2;
+            this.y = Math.floor(Math.random() * 300);
+            this.x = this.width + 800;
+            this._dx = Math.floor(Math.random() * 5) + 8;
+            this.isColliding = false;
         } //method reset ends
 
+        //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
-            if (this.y > 480 + this.height) {
+            if (this.x < -480 + this.width || this.isColliding == true) {
                 this._reset();
             } //if ends
         } //method checkBounds ends
+
         //Public Methods//////////////////////////////////////////////////////////////////////////
         update() {
-            this.x += this._dx;
-            this.y += this._dy;
-
+            this.x -= this._dx;
             this._checkBounds();
         } //method update ends
     } //class Plane ends
