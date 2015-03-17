@@ -4,7 +4,6 @@
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
 
-
 /// <reference path="objects/plane.ts" />
 /// <reference path="objects/island.ts" />
 /// <reference path="objects/cloud.ts" />
@@ -58,17 +57,18 @@ function init() {
 //Tick event Function
 function gameLoop() {
     stats.begin();
-    
-    stage.update(); // Refreshes our stage
     bulletUpdate();
+    
+    
     plane.update(); //updates plane's position
     collectible.update(); //updates island's position
     sky.update(); //updates ocean's position
-
+    checkCollision(plane,collectible);
     for (var cloud = 3; cloud > 0; cloud--) {
+        checkCollision(plane, enemies[cloud]); 
         enemies[cloud].update(); //updates cloud's position
     } //for ends
-
+    stage.update(); // Refreshes our stage
     stats.end();
 } //function gameLoop ends
 
@@ -101,14 +101,14 @@ function distance(p1: createjs.Point, p2: createjs.Point): number {
 }//END distance
 
 //Collision detection function between the player and game objects
-function checkCollision(collider: objects.GameObject) {
+function checkCollision(collider1: objects.GameObject, collider: objects.GameObject) {
     var p1: createjs.Point = new createjs.Point;
     var p2: createjs.Point = new createjs.Point;
-    p1.x = plane.x;
-    p1.y = plane.y;
+    p1.x = collider1.x;
+    p1.y = collider1.y;
     p2.x = collider.x;
     p2.y = collider.y;
-    if (distance(p1, p2) < ((plane.width * 0.5) + (collider.width * 0.5))) {
+    if (distance(p1, p2) < ((collider1.width * 0.5) + (collider.width * 0.5))) {
         if (!collider.isColliding) {
             createjs.Sound.play(collider.soundString);
             collider.isColliding = true;
@@ -128,13 +128,9 @@ function checkBulletCollision(collider1: objects.GameObject, collider2: objects.
     p2.y = collider2.y;
     if (distance(p1, p2) < ((collider1.width * 0.5) + (collider2.width * 0.5))) {
         if (!collider2.isColliding) {
-            collider1.isColliding = true;
             collider2.isColliding = true;
         }
-    }
-    else {
-        collider2.isColliding = false;
-        collider1.isColliding = false;
+
     }
 }//END checkCollision
 
@@ -144,7 +140,7 @@ function bulletUpdate() {
         var bulletAmount = bullets.length - 1;
         for (var i = bulletAmount; i >= 0; i--) {
             for (var x = 3; x > 0; x--) {
-                checkBulletCollision(bullets[i], enemies[x])
+                checkCollision(bullets[i], enemies[x])
                 if (bullets[i].isColliding) {
                     //delete bullets[i]; 
                     //bullets.splice(i);
