@@ -9,6 +9,7 @@
 /// <reference path="objects/island.ts" />
 /// <reference path="objects/cloud.ts" />
 /// <reference path="objects/ocean.ts" />
+/// <reference path="objects/bullet.ts" />
 
 var stats: Stats = new Stats();
 var canvas;
@@ -20,6 +21,8 @@ var plane: objects.Plane;
 var collectible: objects.Island;
 var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
+var bullets: objects.Bullet[] = [];
+var bullet: objects.Bullet;
 
 // asset manifest - array of asset objects
 var manifest = [
@@ -55,7 +58,9 @@ function init() {
 //Tick event Function
 function gameLoop() {
     stats.begin();
+    
     stage.update(); // Refreshes our stage
+    bulletUpdate();
     plane.update(); //updates plane's position
     collectible.update(); //updates island's position
     sky.update(); //updates ocean's position
@@ -63,8 +68,20 @@ function gameLoop() {
     for (var cloud = 3; cloud > 0; cloud--) {
         enemies[cloud].update(); //updates cloud's position
     } //for ends
+
     stats.end();
 } //function gameLoop ends
+
+//Event Handlers ###############################################################
+
+function stageButtonClick() {
+    bullet = new objects.Bullet();
+    bullet.x = 55;
+    bullet.y = stage.mouseY;
+
+    bullets.unshift(bullet);
+    stage.addChild(bullets[0]);
+}
 
 //UTILITY METHODS ###################################################
 
@@ -121,7 +138,22 @@ function checkBulletCollision(collider1: objects.GameObject, collider2: objects.
     }
 }//END checkCollision
 
-
+//method to check if bullets have hit enemies and update movement of bullets
+function bulletUpdate() {
+    if (bullets.length >= 1) {
+        var bulletAmount = bullets.length - 1;
+        for (var i = bulletAmount; i >= 0; i--) {
+            for (var x = 3; x > 0; x--) {
+                checkBulletCollision(bullets[i], enemies[x])
+                if (bullets[i].isColliding) {
+                    //delete bullets[i]; 
+                    //bullets.splice(i);
+                }
+            }
+            bullets[i].update();
+        }
+    }
+}//END bulletUpdate
 
 //Initialization ##################################################################
 
@@ -144,4 +176,7 @@ function main() {
         enemies[cloud] = new objects.Cloud(); //updates cloud's position
         stage.addChild(enemies[cloud]);
     } //for ends
+
+    //activates the mouse click by firing
+    stage.addEventListener("click", stageButtonClick);
 } //function main ends
