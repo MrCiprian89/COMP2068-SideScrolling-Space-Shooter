@@ -13,7 +13,6 @@
         //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
             if (this.x < -480 + this.height || this.isColliding == true) {
-                this.visible = false;
                 this.isColliding = false;
             } //if ends
         } //method checkBounds ends
