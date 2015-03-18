@@ -7,11 +7,11 @@
             super("enemy");
             this._dx = 5;
             this.soundString = "damage";
-            this._reset();
+            this.reset();
         } //constructor ends
 
         //Private Methods/////////////////////////////////////////////////////////////////////////
-        private _reset() {
+        reset() {
             //set x to a random number
             this.y = Math.floor(Math.random() * 300);
             this.x = this.width + 800;
@@ -22,7 +22,7 @@
         //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
             if (this.x < -480 + this.width || this.isColliding == true) {
-                this._reset();
+                this.reset();
             } //if ends
         } //method checkBounds ends
 

@@ -1,6 +1,17 @@
 ﻿module states {
+
     export function playState() {
         stats.begin();
+
+        if (bullets.length >= 1) {
+            var bulletAmount = bullets.length - 1;
+            for (var i = bulletAmount; i >= 0; i--) {
+                for (var x = 3; x > 0; x--) {
+                    checkBulletCollision(bullets[i], enemies[x])
+                }
+                bullets[i].update();
+            }
+        }
         collision.update();
         plane.update(); //updates plane's position
         collectible.update(); //updates island's position
@@ -10,12 +21,8 @@
             enemies[enmey].update(); //updates cloud's position
         } //for ends
 
-        if (bullets.length >= 1) {
-            var bulletAmount = bullets.length - 1;
-            for (var i = bulletAmount; i >= 0; i--) {
-                bullets[i].update();
-            }
-        }
+ 
+
         stage.update(); // Refreshes our stage
         stats.end();
     }
@@ -52,10 +59,6 @@
         stage.addChild(game);
     }
 
-
-
-
-
 //Event Handlers ###############################################################
     export function stageButtonClick() {
         bullet = new objects.Bullet();
@@ -80,24 +83,26 @@
     export function distance(p1: createjs.Point, p2: createjs.Point): number {
 
         return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-    }//END distance
+   }//END distance
 
 
-    //method to check if bullets have hit enemies and update movement of bullets
-    export function bulletUpdate() {
-        var bulletAmount = bullets.length - 1;
-        for (var i = bulletAmount; i >= 0; i--) {
-
-            for (var x = 3; x > 0; x--) {
-               bullets[i], enemies[x];
-                if (bullets[i].isColliding) {
-                    enemies[x].update;
-                    stage.removeChild(bullets[i]);
-                    bullets = bullets.splice(i, 1);
-                    x = 0;
-                }
+    export function checkBulletCollision(collider1: objects.GameObject, collider2: objects.Cloud) {
+        var p1: createjs.Point = new createjs.Point;
+        var p2: createjs.Point = new createjs.Point;
+        p1.x = collider1.x;
+        p1.y = collider1.y;
+        p2.x = collider2.x;
+        p2.y = collider2.y;
+        if (distance(p1, p2) < ((collider1.width * 0.5) + (collider2.width * 0.5))) {
+            if (!collider2.isColliding) {
+                collider2.reset();
+                collider1.isColliding = true;
+                collider2.isColliding = true;
             }
-
+        }
+        else {
+            collider2.isColliding = false;
+            collider1.isColliding = false;
         }
     }
 }//END bulletUpdate

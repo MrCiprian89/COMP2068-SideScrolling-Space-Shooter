@@ -26,13 +26,12 @@ module states {
         // Show Cursor
         stage.cursor = "default";
 
-        // Display Game Over
-        var collectible2 = new objects.Island;
-        collectible2.x = 200;
-        collectible2.y = 300;
-        game.addChild(collectible2);
-        collectible2.addEventListener("click", playButtonClicked);
-
+        // Display Game Menu
+        var buttonStart = new objects.Button("thunder", "start");
+        buttonStart.x = 320;
+        buttonStart.y = 220;
+        game.addChild(buttonStart);
+        buttonStart.addEventListener("click", playButtonClicked);
         stage.addChild(game);
     }
 }  

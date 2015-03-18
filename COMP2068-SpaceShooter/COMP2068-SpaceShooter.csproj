@@ -66,6 +66,7 @@
     <Content Include="assets\images\collectible.png" />
     <Content Include="assets\images\enemy.png" />
     <Content Include="assets\images\sky.png" />
+    <Content Include="assets\images\start-button.png" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -95,6 +96,7 @@
     <TypeScriptCompile Include="Scripts\game1.ts" />
     <TypeScriptCompile Include="Scripts\managers\collision.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
+    <TypeScriptCompile Include="Scripts\objects\button.ts" />
     <TypeScriptCompile Include="Scripts\objects\cloud.ts" />
     <TypeScriptCompile Include="Scripts\constants.ts" />
     <TypeScriptCompile Include="Scripts\objects\gameObjects.ts" />

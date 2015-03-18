@@ -8,7 +8,7 @@ module managers {
     export class Collision {
         // class variables
         private plane: objects.Plane;
-        private island: objects.Island;
+        private island: objects.Island; 
         private clouds = [];
 
         constructor(plane: objects.Plane, island: objects.Island, clouds) {

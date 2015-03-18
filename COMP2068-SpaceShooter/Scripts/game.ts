@@ -33,6 +33,7 @@ var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
 var bullets: objects.Bullet[] = [];
 var bullet: objects.Bullet;
+var bulletAmount = 0;
 
 var currentState: number;
 var currentStateFunction;
@@ -44,6 +45,7 @@ var manifest = [
     { id: "background", src: "assets/images/sky.png" },
     { id: "plane", src: "assets/images/plane.png" },
     { id: "bullet", src: "assets/images/bullet.png" },
+    { id: "start", src: "assets/images/start-button.png" },
     { id: "engine", src: "assets/audio/engine.ogg" },
     { id: "collect", src: "assets/audio/yay.ogg" },
     { id: "damage", src: "assets/audio/thunder.ogg" }

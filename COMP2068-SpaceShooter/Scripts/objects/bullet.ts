@@ -13,7 +13,7 @@
         //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
             if (this.x > 800 + this.width || this.isColliding == true) {
-                game.removeChild(this);
+               
             }//if ends
         } //method checkBounds ends
 
