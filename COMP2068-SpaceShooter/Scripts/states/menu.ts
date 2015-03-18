@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 module states {
     //changes the state to the game state when function is called
     export function playButtonClicked(event: MouseEvent) {

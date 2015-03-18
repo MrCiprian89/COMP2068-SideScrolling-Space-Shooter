@@ -1,6 +1,6 @@
 ﻿module states {
     export function gameOverState() {
-        ocean.update();
+        sky.update();
     }
 
     // Restart Game when Try Again Button is clicked

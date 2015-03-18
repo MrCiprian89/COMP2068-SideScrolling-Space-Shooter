@@ -23,6 +23,9 @@ var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
 var game: createjs.Container;
+var collision: managers.Collision;
+
+
 //Game objects
 var plane: objects.Plane;
 var collectible: objects.Island;

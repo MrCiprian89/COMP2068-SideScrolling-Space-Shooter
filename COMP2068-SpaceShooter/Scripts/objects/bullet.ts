@@ -12,15 +12,15 @@
 
         //check to see if the object has reached the end of the screen or has hit the player
         private _checkBounds() {
-            if (this.x < -480 + this.height || this.isColliding == true) {
-                this.isColliding = false;
+            if (this.x > 800 + this.width || this.isColliding == true) {
+                game.removeChild(this);
             }//if ends
         } //method checkBounds ends
 
         //Public Methods//////////////////////////////////////////////////////////////////////////
         update() {
             this.x += this._dx;
-             // this._checkBounds();
+              this._checkBounds();
         } //method update ends
     } //class Plane ends
 } //module objects ends   
