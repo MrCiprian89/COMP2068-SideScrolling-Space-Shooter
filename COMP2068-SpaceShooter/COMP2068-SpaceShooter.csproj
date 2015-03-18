@@ -92,12 +92,17 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\game.ts" />
+    <TypeScriptCompile Include="Scripts\game1.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\cloud.ts" />
+    <TypeScriptCompile Include="Scripts\constants.ts" />
     <TypeScriptCompile Include="Scripts\objects\gameObjects.ts" />
     <TypeScriptCompile Include="Scripts\objects\island.ts" />
     <TypeScriptCompile Include="Scripts\objects\ocean.ts" />
     <TypeScriptCompile Include="Scripts\objects\plane.ts" />
+    <TypeScriptCompile Include="Scripts\states\gameover.ts" />
+    <TypeScriptCompile Include="Scripts\states\menu.ts" />
+    <TypeScriptCompile Include="Scripts\states\play.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\preloadjs\preloadjs.d.ts" />

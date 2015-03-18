@@ -4,7 +4,7 @@
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
             super("bullet");
-            this._dx = 25;
+            this._dx = 2;
             this.soundString = "collect";
         } //constructor ends
 
@@ -14,13 +14,13 @@
         private _checkBounds() {
             if (this.x < -480 + this.height || this.isColliding == true) {
                 this.isColliding = false;
-            } //if ends
+            }//if ends
         } //method checkBounds ends
 
         //Public Methods//////////////////////////////////////////////////////////////////////////
         update() {
             this.x += this._dx;
-            //  this._checkBounds();
+             // this._checkBounds();
         } //method update ends
     } //class Plane ends
 } //module objects ends   

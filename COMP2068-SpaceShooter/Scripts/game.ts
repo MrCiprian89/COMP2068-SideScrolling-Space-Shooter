@@ -3,6 +3,14 @@
 /// <reference path="typings/tweenjs/tweenjs.d.ts" />
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
+/// <reference path="constants.ts" />
+
+/// <reference path="states/play.ts" />
+/// <reference path="states/menu.ts" />
+/// <reference path="constants.ts" />
+
+
+
 
 /// <reference path="objects/plane.ts" />
 /// <reference path="objects/island.ts" />
@@ -14,7 +22,7 @@ var stats: Stats = new Stats();
 var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
-
+var game: createjs.Container;
 //Game objects
 var plane: objects.Plane;
 var collectible: objects.Island;
@@ -22,6 +30,9 @@ var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
 var bullets: objects.Bullet[] = [];
 var bullet: objects.Bullet;
+
+var currentState: number;
+var currentStateFunction;
 
 // asset manifest - array of asset objects
 var manifest = [
@@ -44,135 +55,41 @@ function preload() {
 
 //Initialize the game
 function init() {
-    setupStats();
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
     stage.enableMouseOver(20); // Enable mouse events
     createjs.Ticker.setFPS(60); // 60 frames per second
     createjs.Ticker.addEventListener("tick", gameLoop);
 
-    main();
+    currentState = constants.MENU_STATE; //start the game in the menu screen
+    changeState(currentState); //will use the menu tate variable on the changestate function
 } //function init ends
 
-//Tick event Function
-function gameLoop() {
-    stats.begin();
-    bulletUpdate();
-    
-    
-    plane.update(); //updates plane's position
-    collectible.update(); //updates island's position
-    sky.update(); //updates ocean's position
-    checkCollision(plane,collectible);
-    for (var cloud = 3; cloud > 0; cloud--) {
-        checkCollision(plane, enemies[cloud]); 
-        enemies[cloud].update(); //updates cloud's position
-    } //for ends
-    stage.update(); // Refreshes our stage
-    stats.end();
-} //function gameLoop ends
 
-//Event Handlers ###############################################################
-
-function stageButtonClick() {
-    bullet = new objects.Bullet();
-    bullet.x = 55;
-    bullet.y = stage.mouseY;
-
-    bullets.unshift(bullet);
-    stage.addChild(bullets[0]);
+// Game Loop function that gets called every tick
+function gameLoop(event): void {
+    currentStateFunction();
+    stage.update();
 }
 
-//UTILITY METHODS ###################################################
+function changeState(state: number): void {
+    // Launch Various "screens"
+    switch (state) {
+        case constants.MENU_STATE:
+            // instantiate menu screen
+            currentStateFunction = states.menuState;
+            states.menu();
+            break;
 
-//Create an fps display
-function setupStats() {
-    stats.setMode(1);
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '810px';
-    stats.domElement.style.top = '0';
-    document.body.appendChild(stats.domElement);
-}
+        case constants.PLAY_STATE:
+            // instantiate play screen
+            currentStateFunction = states.playState;
+            states.play();
+            break;
 
-//Calculate distance between two points
-function distance(p1: createjs.Point, p2: createjs.Point): number {
-
-    return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-}//END distance
-
-//Collision detection function between the player and game objects
-function checkCollision(collider1: objects.GameObject, collider: objects.GameObject) {
-    var p1: createjs.Point = new createjs.Point;
-    var p2: createjs.Point = new createjs.Point;
-    p1.x = collider1.x;
-    p1.y = collider1.y;
-    p2.x = collider.x;
-    p2.y = collider.y;
-    if (distance(p1, p2) < ((collider1.width * 0.5) + (collider.width * 0.5))) {
-        if (!collider.isColliding) {
-            createjs.Sound.play(collider.soundString);
-            collider.isColliding = true;
-        }
+        case constants.GAME_OVER_STATE:
+            currentStateFunction = states.gameOverState;
+            states.gameOver();//initialize the game over state
+            break;
     }
-    else {
-        collider.isColliding = false;
-    }
-}//END checkCollision
-
-function checkBulletCollision(collider1: objects.GameObject, collider2: objects.GameObject) {
-    var p1: createjs.Point = new createjs.Point;
-    var p2: createjs.Point = new createjs.Point;
-    p1.x = collider1.x;
-    p1.y = collider1.y;
-    p2.x = collider2.x;
-    p2.y = collider2.y;
-    if (distance(p1, p2) < ((collider1.width * 0.5) + (collider2.width * 0.5))) {
-        if (!collider2.isColliding) {
-            collider2.isColliding = true;
-        }
-
-    }
-}//END checkCollision
-
-//method to check if bullets have hit enemies and update movement of bullets
-function bulletUpdate() {
-    if (bullets.length >= 1) {
-        var bulletAmount = bullets.length - 1;
-        for (var i = bulletAmount; i >= 0; i--) {
-            for (var x = 3; x > 0; x--) {
-                checkCollision(bullets[i], enemies[x])
-                if (bullets[i].isColliding) {
-                    //delete bullets[i]; 
-                    //bullets.splice(i);
-                }
-            }
-            bullets[i].update();
-        }
-    }
-}//END bulletUpdate
-
-//Initialization ##################################################################
-
-// Our Game Kicks off in here
-function main() {
-    //add ocean to game
-    sky = new objects.Ocean();
-    stage.addChild(sky);
-
-    //add island to game
-    collectible = new objects.Island();
-    stage.addChild(collectible);
-
-    //add plane to game
-    plane = new objects.Plane();
-    stage.addChild(plane);
-
-    //add clouds to game
-    for (var cloud = 3; cloud > 0; cloud--) {
-        enemies[cloud] = new objects.Cloud(); //updates cloud's position
-        stage.addChild(enemies[cloud]);
-    } //for ends
-
-    //activates the mouse click by firing
-    stage.addEventListener("click", stageButtonClick);
 } //function main ends
