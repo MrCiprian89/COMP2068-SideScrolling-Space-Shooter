@@ -7,7 +7,7 @@
             var bulletAmount = bullets.length - 1;
             for (var i = bulletAmount; i >= 0; i--) {
                 for (var x = 3; x > 0; x--) {
-                    checkBulletCollision(bullets[i], enemies[x])
+                    checkBulletCollision(bullets[i], enemies[x],i)
                 }
                 bullets[i].update();
             }
@@ -86,7 +86,7 @@
    }//END distance
 
 
-    export function checkBulletCollision(collider1: objects.GameObject, collider2: objects.Cloud) {
+    export function checkBulletCollision(collider1: objects.GameObject, collider2: objects.Cloud, index) {
         var p1: createjs.Point = new createjs.Point;
         var p2: createjs.Point = new createjs.Point;
         p1.x = collider1.x;
@@ -95,14 +95,13 @@
         p2.y = collider2.y;
         if (distance(p1, p2) < ((collider1.width * 0.5) + (collider2.width * 0.5))) {
             if (!collider2.isColliding) {
+                bullets.splice(index, 1);
+                game.removeChild(collider1);
                 collider2.reset();
-                collider1.isColliding = true;
-                collider2.isColliding = true;
             }
         }
         else {
-            collider2.isColliding = false;
-            collider1.isColliding = false;
+
         }
     }
 }//END bulletUpdate
