@@ -7,5 +7,12 @@
     // Game Constants
     export var LABEL_FONT = "25px Consolas";
     export var LABEL_COLOUR = "#FFFFFF";
-    export var PLANE_LIVES = 3;
+
+
+    export var SCREEN_WIDTH: number = 800;
+    export var SCREEN_HEIGHT: number = 480;
+    export var SCREEN_CENTRE_WIDTH: number = SCREEN_WIDTH * 0.5;
+    export var SCREEN_CENTRE_HEIGHT: number = SCREEN_HEIGHT * 0.5;
+
+    export var ENEMY_NUM: number = 5;
 } 

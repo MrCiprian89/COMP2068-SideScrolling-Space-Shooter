@@ -7,7 +7,7 @@
 
 /// <reference path="states/play.ts" />
 /// <reference path="states/menu.ts" />
-/// <reference path="constants.ts" />
+
 
 /// <reference path="objects/plane.ts" />
 /// <reference path="objects/island.ts" />
@@ -15,6 +15,8 @@
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/bullet.ts" />
 
+
+//Game Variables
 var stats: Stats = new Stats();
 var canvas;
 var stage: createjs.Stage;

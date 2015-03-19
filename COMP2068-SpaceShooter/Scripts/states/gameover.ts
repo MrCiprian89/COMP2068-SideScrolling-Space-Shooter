@@ -1,6 +1,7 @@
 ﻿module states {
     export function gameOverState() {
         sky.update();
+  
     }
 
     // Restart Game when Try Again Button is clicked
@@ -14,7 +15,8 @@
 
     // Game Over Scene
     export function gameOver() {
-
+        game.removeAllEventListeners();
+        stage.removeAllEventListeners();
         // Declare new Game Container
         game = new createjs.Container();
 

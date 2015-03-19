@@ -47,6 +47,7 @@ module managers {
                 collider1.isColliding = true;
                 collider2.isColliding = true;
                 if (collider2.soundString === "damage") { lives--; }
+                if (lives <= 0) { changeState(constants.GAME_OVER_STATE)}
                 if (collider2.soundString === "collect") { score += 100; }
             }
             else {
@@ -57,7 +58,7 @@ module managers {
 
         // Utility Function to Check Collisions
         update() {
-            for (var cloud = 3; cloud > 0; cloud--) {
+            for (var cloud = constants.ENEMY_NUM; cloud > 0; cloud--) {
                 this.collisionCheck(this.plane , this.clouds[cloud]);
             }
             this.collisionCheck(this.plane, this.island);

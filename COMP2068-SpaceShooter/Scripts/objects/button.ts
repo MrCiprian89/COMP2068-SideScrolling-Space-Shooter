@@ -7,7 +7,7 @@
         public soundString: string;
 
     //Constructor/////////////////////////////////////////////////////////////////////////////
-    constructor(sound, image) {
+    constructor(sound, image, x:number, y:number) {
         super(assetLoader.getResult(image));
         
         this.width = this.getBounds().width;
@@ -17,7 +17,10 @@
         this.regY = this.getBounds().height * 0.5;
         this.soundString = sound;
         this.on("mouseover", this.onButtonOver);
-        this.on("mouseout", this.onButtonOut);  
+        this.on("mouseout", this.onButtonOut);
+        
+        this.x = x;
+        this.y = y;  
     } //constructor ends
 
 

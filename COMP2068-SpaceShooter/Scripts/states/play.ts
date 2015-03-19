@@ -6,7 +6,7 @@
         if (bullets.length >= 1) {
             var bulletAmount = bullets.length - 1;
             for (var i = bulletAmount; i >= 0; i--) {
-                for (var x = 3; x > 0; x--) {
+                for (var x = constants.ENEMY_NUM; x > 0; x--) {
                     checkBulletCollision(bullets[i], enemies[x],i)
                 }
                 bullets[i].update();
@@ -20,7 +20,7 @@
         collectible.update(); //updates island's position
         sky.update(); //updates ocean's position
 
-        for (var enmey = 3; enmey > 0; enmey--) {
+        for (var enmey = constants.ENEMY_NUM; enmey > 0; enmey--) {
             enemies[enmey].update(); //updates cloud's position
         } //for ends
 
@@ -56,7 +56,7 @@
         game.addChild(plane);
 
         //add clouds to game
-        for (var cloud = 3; cloud > 0; cloud--) {
+        for (var cloud = constants.ENEMY_NUM; cloud > 0; cloud--) {
             enemies[cloud] = new objects.Cloud(); //updates cloud's position
             game.addChild(enemies[cloud]);
         } //for ends

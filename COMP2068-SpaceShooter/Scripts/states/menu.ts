@@ -27,9 +27,7 @@ module states {
         stage.cursor = "default";
 
         // Display Game Menu
-        var buttonStart = new objects.Button("thunder", "start");
-        buttonStart.x = 320;
-        buttonStart.y = 220;
+        var buttonStart = new objects.Button("thunder", "start", constants.SCREEN_CENTRE_WIDTH, constants.SCREEN_CENTRE_HEIGHT);
         game.addChild(buttonStart);
         buttonStart.addEventListener("click", playButtonClicked);
         stage.addChild(game);
