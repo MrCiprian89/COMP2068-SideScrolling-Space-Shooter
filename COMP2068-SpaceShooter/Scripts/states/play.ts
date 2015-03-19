@@ -12,7 +12,10 @@
                 bullets[i].update();
             }
         }
+        scoreBar.text = "Score: " + score;
         collision.update();
+        lifeBar.text = "Lives: " + lives;
+        
         plane.update(); //updates plane's position
         collectible.update(); //updates island's position
         sky.update(); //updates ocean's position
@@ -21,9 +24,6 @@
             enemies[enmey].update(); //updates cloud's position
         } //for ends
 
- 
-
-        stage.update(); // Refreshes our stage
         stats.end();
     }
 
@@ -36,6 +36,16 @@
         //add ocean to game
         sky = new objects.Ocean();
         game.addChild(sky);
+
+        lifeBar = new createjs.Text("Score: " + score, constants.LABEL_FONT, constants.LABEL_COLOUR);
+        lifeBar.x = 620;
+        lifeBar.y = 10;
+        game.addChild(lifeBar);
+        scoreBar = new createjs.Text("Lives: " + lives, constants.LABEL_FONT, constants.LABEL_COLOUR);
+        scoreBar.x = 620;
+        scoreBar.y = 50;
+        game.addChild(scoreBar);
+
 
         //add island to game
         collectible = new objects.Island();
@@ -98,6 +108,7 @@
                 bullets.splice(index, 1);
                 game.removeChild(collider1);
                 collider2.reset();
+                //score += 100;
             }
         }
         else {

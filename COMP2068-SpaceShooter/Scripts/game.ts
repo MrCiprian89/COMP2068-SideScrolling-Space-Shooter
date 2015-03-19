@@ -9,9 +9,6 @@
 /// <reference path="states/menu.ts" />
 /// <reference path="constants.ts" />
 
-
-
-
 /// <reference path="objects/plane.ts" />
 /// <reference path="objects/island.ts" />
 /// <reference path="objects/cloud.ts" />
@@ -33,7 +30,11 @@ var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
 var bullets: objects.Bullet[] = [];
 var bullet: objects.Bullet;
-var bulletAmount = 0;
+var lifeBar: createjs.Text;
+var scoreBar: createjs.Text;
+var score = 0;
+var lives = 5;
+
 
 var currentState: number;
 var currentStateFunction;

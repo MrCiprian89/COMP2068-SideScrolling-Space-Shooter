@@ -13,7 +13,7 @@
 
         //Public Methods//////////////////////////////////////////////////////////////////////////
         update() {
-            this.y = stage.mouseY;
+            this.y = stage.mouseY;    
         } //method update ends
     } //class Plane ends
 } //module objects ends  

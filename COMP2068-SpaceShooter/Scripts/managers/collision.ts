@@ -35,7 +35,7 @@ module managers {
         }
 
         // check collision between plane and any cloud object
-        private collisionCheck(collider1 , collider2) {
+        private collisionCheck(collider1 , collider2:objects.GameObject) {
             var p1: createjs.Point = new createjs.Point();
             var p2: createjs.Point = new createjs.Point();
             p1.x = collider1.x;
@@ -43,11 +43,15 @@ module managers {
             p2.x = collider2.x;
             p2.y = collider2.y;
             if (this.distance(p1, p2) < ((collider1.width / 2) + (collider2.width / 2))) {
-                createjs.Sound.play("thunder");
+                createjs.Sound.play(collider2.soundString);
+                collider1.isColliding = true;
                 collider2.isColliding = true;
+                if (collider2.soundString === "damage") { lives--; }
+                if (collider2.soundString === "collect") { score += 100; }
             }
             else {
                 collider2.isColliding = false;
+                collider1.isColliding = false;
             }
         }
 
