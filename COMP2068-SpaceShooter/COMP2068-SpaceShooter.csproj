@@ -101,6 +101,7 @@
     <TypeScriptCompile Include="Scripts\constants.ts" />
     <TypeScriptCompile Include="Scripts\objects\gameObjects.ts" />
     <TypeScriptCompile Include="Scripts\objects\island.ts" />
+    <TypeScriptCompile Include="Scripts\objects\label.ts" />
     <TypeScriptCompile Include="Scripts\objects\ocean.ts" />
     <TypeScriptCompile Include="Scripts\objects\plane.ts" />
     <TypeScriptCompile Include="Scripts\objects\scoreBoard.ts" />
