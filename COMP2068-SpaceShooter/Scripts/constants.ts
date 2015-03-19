@@ -15,4 +15,5 @@
     export var SCREEN_CENTRE_HEIGHT: number = SCREEN_HEIGHT * 0.5;
 
     export var ENEMY_NUM: number = 5;
+    export var PLAYER_LIVES: number = 3;
 } 

@@ -15,11 +15,18 @@
 
     // Game Over Scene
     export function gameOver() {
+        createjs.Sound.stop();
+        game.removeAllChildren();
         game.removeAllEventListeners();
         stage.removeAllEventListeners();
+
+
+
         // Declare new Game Container
         game = new createjs.Container();
-
+        //add ocean to game
+        sky = new objects.Ocean();
+        game.addChild(sky);
         // Show Cursor
         stage.cursor = "default";
 

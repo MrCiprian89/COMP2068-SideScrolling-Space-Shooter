@@ -46,9 +46,9 @@ module managers {
                 createjs.Sound.play(collider2.soundString);
                 collider1.isColliding = true;
                 collider2.isColliding = true;
-                if (collider2.soundString === "damage") { lives--; }
+                if (collider2.name === "cloud") { lives--; }
                 if (lives <= 0) { changeState(constants.GAME_OVER_STATE)}
-                if (collider2.soundString === "collect") { score += 100; }
+                if (collider2.name === "collectible") { score += 100; }
             }
             else {
                 collider2.isColliding = false;

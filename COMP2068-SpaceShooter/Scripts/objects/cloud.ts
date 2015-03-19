@@ -5,6 +5,7 @@
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
             super("enemy");
+            this.name = "cloud";
             this._dx = 5;
             this.soundString = "damage";
             this.reset();

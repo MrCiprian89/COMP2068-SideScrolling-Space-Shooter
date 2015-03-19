@@ -1,7 +1,7 @@
 ﻿module states {
 
     export function playState() {
-        stats.begin();
+     
 
         if (bullets.length >= 1) {
             var bulletAmount = bullets.length - 1;
@@ -24,16 +24,15 @@
             enemies[enmey].update(); //updates cloud's position
         } //for ends
 
-        stats.end();
+
     }
 
     // play state Function
     export function play(): void {
-        var stats: Stats = new Stats();
         
         // Declare new Game Container
         game = new createjs.Container();
-        //add ocean to game
+        //add sky to game
         sky = new objects.Ocean();
         game.addChild(sky);
 
@@ -81,13 +80,7 @@
 
     //Utility Methods #####################################################################
     //Create an fps display
-   export function setupStats() {
-        stats.setMode(1);
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = '810px';
-        stats.domElement.style.top = '0';
-        document.body.appendChild(stats.domElement);
-    }
+
 
     //Calculate distance between two points
     export function distance(p1: createjs.Point, p2: createjs.Point): number {

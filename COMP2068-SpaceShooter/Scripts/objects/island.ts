@@ -4,6 +4,7 @@
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
             super("collectible");
+            this.name = "collectible";
             this._dx = 5;
             this.soundString = "collect";
             this._reset();

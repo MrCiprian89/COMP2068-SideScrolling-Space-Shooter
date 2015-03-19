@@ -1,7 +1,7 @@
 ﻿module objects {
     
     //LABEL CLASS
-    export class label extends createjs.Text {
+    export class Label extends createjs.Text {
         //instance variables
         public width: number;
         public height: number;

@@ -17,13 +17,12 @@
 
 
 //Game Variables
-var stats: Stats = new Stats();
 var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
 var game: createjs.Container;
 var collision: managers.Collision;
-
+var stats: Stats = new Stats();
 
 //Game objects
 var plane: objects.Plane;
@@ -68,7 +67,11 @@ function init() {
     stage.enableMouseOver(20); // Enable mouse events
     createjs.Ticker.setFPS(60); // 60 frames per second
     createjs.Ticker.addEventListener("tick", gameLoop);
-
+    stats.setMode(1);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '810px';
+    stats.domElement.style.top = '0';
+    document.body.appendChild(stats.domElement);
     currentState = constants.MENU_STATE; //start the game in the menu screen
     changeState(currentState); //will use the menu tate variable on the changestate function
 } //function init ends
@@ -76,8 +79,10 @@ function init() {
 
 // Game Loop function that gets called every tick
 function gameLoop(event): void {
+    stats.begin();
     currentStateFunction();
     stage.update();
+    stats.end();
 }
 
 function changeState(state: number): void {
@@ -100,4 +105,5 @@ function changeState(state: number): void {
             states.gameOver();//initialize the game over state
             break;
     }
+
 } //function main ends

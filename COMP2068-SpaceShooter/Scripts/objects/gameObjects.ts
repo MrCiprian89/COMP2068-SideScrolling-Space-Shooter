@@ -6,6 +6,7 @@
         public isColliding: boolean;
         public soundString: string;
         protected _dx = 5;
+        public name: string;
 
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor(assetString: string) {
