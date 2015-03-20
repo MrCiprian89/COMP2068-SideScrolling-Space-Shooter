@@ -1,17 +1,10 @@
 ﻿
 module states {
-    //changes the state to the game state when function is called
-    export function playButtonClicked(event: MouseEvent) {
-        stage.removeChild(game);
-        game.removeAllChildren();
-        game.removeAllEventListeners();
-        currentState = constants.PLAY_STATE; 
-        changeState(currentState);
-    }
-
+    var characterSelect: objects.Button;
+    var buttonStart: objects.Button;
+    var instructButton: objects.Button;
     export function menuState() {
         sky.update();
-        plane.update();
     }
 
     //initializes all the objects of the starting menu screen
@@ -21,15 +14,51 @@ module states {
 
         // Instantiate Game Objects
         sky = new objects.Ocean();
-        plane = new objects.Plane();
 
         // Show Cursor
         stage.cursor = "default";
 
         // Display Game Menu
-        var buttonStart = new objects.Button("thunder", "start", constants.SCREEN_CENTRE_WIDTH, constants.SCREEN_CENTRE_HEIGHT);
+         buttonStart = new objects.Button("button-sound", "start", constants.SCREEN_CENTRE_WIDTH, constants.SCREEN_CENTRE_HEIGHT);
         game.addChild(buttonStart);
         buttonStart.addEventListener("click", playButtonClicked);
+
+         characterSelect = new objects.Button("button-sound", "select", constants.SCREEN_CENTRE_WIDTH + 76, constants.SCREEN_CENTRE_HEIGHT + 100);
+        game.addChild(characterSelect);
+        characterSelect.addEventListener("click", selectButtonClicked);
+
+        instructButton = new objects.Button("button-sound", "instructions-button", constants.SCREEN_CENTRE_WIDTH -76, constants.SCREEN_CENTRE_HEIGHT + 100);
+        game.addChild(instructButton);
+        instructButton.addEventListener("click", instructionButtonClicked);
+
         stage.addChild(game);
     }
-}  
+
+    //FUNCTIONS ########################################################
+
+    //changes the state to the game state when function is called
+    export function playButtonClicked(event: MouseEvent) {
+        createjs.Sound.play(buttonStart.soundString);
+        stage.removeChild(game);
+        game.removeAllChildren();
+        game.removeAllEventListeners();
+        currentState = constants.PLAY_STATE;
+        changeState(currentState);
+    }
+    export function selectButtonClicked(event: MouseEvent) {
+        createjs.Sound.play(characterSelect.soundString);
+        stage.removeChild(game);
+        game.removeAllChildren();
+        game.removeAllEventListeners();
+        currentState = constants.CHARACTER_SELECT;
+        changeState(currentState);
+    }
+    export function instructionButtonClicked(event: MouseEvent) {
+        createjs.Sound.play(instructButton.soundString);
+        stage.removeChild(game);
+        game.removeAllChildren();
+        game.removeAllEventListeners();
+        currentState = constants.INSTRUCTION;
+        changeState(currentState);
+    }
+}  //END module

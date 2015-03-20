@@ -50,7 +50,7 @@ module managers {
                 if (lives <= 0) {
                     changeState(constants.GAME_OVER_STATE)
                 }
-                if (collider2.name === "collectible") { score += 100; }
+                if (collider2.name === "collectible") { score += 200; }
             }
             else {
                 collider2.isColliding = false;
