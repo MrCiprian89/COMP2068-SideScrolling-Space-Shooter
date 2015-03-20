@@ -47,7 +47,9 @@ module managers {
                 collider1.isColliding = true;
                 collider2.isColliding = true;
                 if (collider2.name === "cloud") { lives--; }
-                if (lives <= 0) { changeState(constants.GAME_OVER_STATE)}
+                if (lives <= 0) {
+                    changeState(constants.GAME_OVER_STATE)
+                }
                 if (collider2.name === "collectible") { score += 100; }
             }
             else {
