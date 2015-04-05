@@ -42,7 +42,7 @@ module managers {
             p1.y = collider1.y;
             p2.x = collider2.x;
             p2.y = collider2.y;
-            if (this.distance(p1, p2) < ((collider1.width / 2) + (collider2.width / 2))) {
+            if (this.distance(p1, p2) < ((collider1.width / 2) + (collider2.width / 2))-20 ) {
                 createjs.Sound.play(collider2.soundString);
                 collider1.isColliding = true;
                 collider2.isColliding = true;

@@ -8,8 +8,7 @@
 
         //CONSTRUCtOR
         constructor(labelString, x: number, y: number) {
-            super(labelString, constants.LABEL_FONT + " " + "consolas", constants.LABEL_COLOUR);
-
+            super(labelString, constants.LABEL_FONT , constants.LABEL_COLOUR);
             this.width = this.getMeasuredWidth();
             this.height = this.getMeasuredHeight();
             this.regX = this.width * 0.5;

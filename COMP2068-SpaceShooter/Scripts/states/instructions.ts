@@ -13,7 +13,7 @@
         game.addChild(instructionScreen);
 
         stage.addChild(game);
-        backButton = new objects.Button("button-sound", "start", 680, 400);
+        backButton = new objects.Button("button-sound", "back", 680, 400);
         game.addChild(backButton);
         backButton.addEventListener("click", backButtonClicked2);
         stage.addChild(game);

@@ -14,7 +14,7 @@
         //Private Methods/////////////////////////////////////////////////////////////////////////
         reset() {
             //set x to a random number
-            this.y = Math.floor(Math.random() * 300);
+            this.y = Math.floor(Math.random() * 400);
             this.x = this.width + 800;
             this._dx = Math.floor(Math.random() * 5) + 8;
             this.isColliding = false;

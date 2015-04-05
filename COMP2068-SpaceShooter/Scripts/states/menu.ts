@@ -3,6 +3,7 @@ module states {
     var characterSelect: objects.Button;
     var buttonStart: objects.Button;
     var instructButton: objects.Button;
+    var title: objects.Label;
     export function menuState() {
         sky.update();
     }
@@ -14,11 +15,15 @@ module states {
 
         // Instantiate Game Objects
         sky = new objects.Ocean();
-
+        game.addChild(sky);
         // Show Cursor
         stage.cursor = "default";
 
         // Display Game Menu
+        title = new objects.Label("Space Shooter", 400, 100);
+        game.addChild(title);
+
+
          buttonStart = new objects.Button("button-sound", "start", constants.SCREEN_CENTRE_WIDTH, constants.SCREEN_CENTRE_HEIGHT);
         game.addChild(buttonStart);
         buttonStart.addEventListener("click", playButtonClicked);

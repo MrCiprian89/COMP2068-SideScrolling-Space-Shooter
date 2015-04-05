@@ -4,9 +4,11 @@
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
 /// <reference path="constants.ts" />
+/// <reference path="managers/assets.ts" />
 
 /// <reference path="states/play.ts" />
 /// <reference path="states/menu.ts" />
+/// <reference path="states/instructions.ts" />
 
 
 /// <reference path="objects/plane.ts" />
@@ -14,6 +16,8 @@
 /// <reference path="objects/cloud.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/bullet.ts" />
+/// <reference path="objects/label.ts" />
+/// <reference path="objects/button.ts" />
 
 
 //Game Variables
@@ -23,6 +27,8 @@ var assetLoader: createjs.LoadQueue;
 var game: createjs.Container;
 var collision: managers.Collision;
 var stats: Stats = new Stats();
+var textureAtlas: createjs.SpriteSheet;
+var fontAtlas: createjs.SpriteSheet;
 
 //Game objects
 var plane: objects.Plane;
@@ -34,34 +40,54 @@ var bullet: objects.Bullet;
 var lifeBar: createjs.Text;
 var scoreBar: createjs.Text;
 var score = 0;
-var lives = 5;
-
+var lives = 3;
+var player = "ship";
 
 var currentState: number;
 var currentStateFunction;
 
 // asset manifest - array of asset objects
 var manifest = [
-    { id: "enemy", src: "assets/images/enemy.png" },
-    { id: "collectible", src: "assets/images/collectible.png" },
+    { id: "enemy", src: "assets/images/enemy-ship.png" },
+    { id: "collectible", src: "assets/images/pickup.png" },
     { id: "background", src: "assets/images/sky.png" },
     { id: "plane", src: "assets/images/plane.png" },
-    { id: "bullet", src: "assets/images/bullet.png" },
+    { id: "ship", src: "assets/images/ship1.png" },
+    { id: "ship2", src: "assets/images/ship2.png" },
+    { id: "bullet", src: "assets/images/laser.png" },
+    { id: "select", src: "assets/images/select-button.png" },
     { id: "start", src: "assets/images/start-button.png" },
-    { id: "engine", src: "assets/audio/engine.ogg" },
-    { id: "collect", src: "assets/audio/yay.ogg" },
-    { id: "damage", src: "assets/audio/thunder.ogg" }
+    { id: "back", src: "assets/images/back-button.png" },
+    { id: "main-menu-button", src: "assets/images/main-menu-button.png" },
+    { id: "try-again-button", src: "assets/images/try-again-button.png" },
+    { id: "select-ship1-button", src: "assets/images/ship-select-button1.png" },
+    { id: "select-ship2-button", src: "assets/images/ship-select-button2.png" },
+    { id: "instructions-button", src: "assets/images/instructions-button.png" },
+    { id: "instructions", src: "assets/images/instructions.png" },
+    { id: "game-over", src: "assets/images/game-over-label.png" },
+
+    { id: "damage", src: "assets/audio/explosion.wav" },
+    { id: "laser-sound", src: "assets/audio/laser_fire.wav" },
+    { id: "enemy-hit-sound", src: "assets/audio/laser_hit.wav" },
+    { id: "collect", src: "assets/audio/pickup.wav" },
+    { id: "button-sound", src: "assets/audio/button_press.wav" },
+    { id: "select-button-sound", src: "assets/audio/button_select.wav" },
+    { id: "explosion", src: "assets/audio/button_select.wav" },
+    { id: "gameover-explosion-sound", src: "assets/audio/game-over-explosion.wav" }
 ];
 
 function preload() {
+    managers.Assets.init();
     assetLoader = new createjs.LoadQueue(); // instantiated assetLoader
     assetLoader.installPlugin(createjs.Sound);
     assetLoader.on("complete", init, this); // event handler-triggers when loading done
     assetLoader.loadManifest(manifest); // loading my asset manifest
+    textureAtlas = new createjs.SpriteSheet(managers.Assets.loadSprites);
 } //function preload ends
 
 //Initialize the game
 function init() {
+    managers.Assets.loadSprites();
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
     stage.enableMouseOver(20); // Enable mouse events
@@ -92,6 +118,18 @@ function changeState(state: number): void {
             // instantiate menu screen
             currentStateFunction = states.menuState;
             states.menu();
+            break;
+
+        case constants.CHARACTER_SELECT:
+            // instantiate menu screen
+            currentStateFunction = states.selectState;
+            states.selectOptions();
+            break;
+
+        case constants.INSTRUCTION:
+            // instantiate menu screen
+            currentStateFunction = states.instructionState;
+            states.showInstructions();
             break;
 
         case constants.PLAY_STATE:
