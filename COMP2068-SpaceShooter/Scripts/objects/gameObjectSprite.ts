@@ -24,8 +24,5 @@
 
             this.isColliding = false;
         }
-
-
     }
-
 }    

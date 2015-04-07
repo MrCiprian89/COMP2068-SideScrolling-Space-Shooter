@@ -1,5 +1,5 @@
 ﻿/// <reference path="../objects/cloud.ts" />
-/// <reference path="../objects/island.ts" />
+/// <reference path="../objects/collectible.ts" />
 /// <reference path="../objects/plane.ts" />
 
 
@@ -8,12 +8,12 @@ module managers {
     export class Collision {
         // class variables
         private plane: objects.Plane;
-        private island: objects.Island; 
+        private collectible: objects.collectible; 
         private clouds = [];
 
-        constructor(plane: objects.Plane, island: objects.Island, clouds) {
+        constructor(plane: objects.Plane, collectible: objects.collectible, clouds) {
             this.plane = plane;
-            this.island = island;
+            this.collectible = collectible;
             this.clouds = clouds;
         }
 
@@ -35,7 +35,7 @@ module managers {
         }
 
         // check collision between plane and any cloud object
-        private collisionCheck(collider1 , collider2:objects.GameObject) {
+        private collisionCheck(collider1 , collider2) {
             var p1: createjs.Point = new createjs.Point();
             var p2: createjs.Point = new createjs.Point();
             p1.x = collider1.x;
@@ -46,11 +46,24 @@ module managers {
                 createjs.Sound.play(collider2.soundString);
                 collider1.isColliding = true;
                 collider2.isColliding = true;
-                if (collider2.name === "cloud") { lives--; }
+                if (collider2.name === "enemy") {
+                    lives--;
+                    healthBar.update(lives);
+                    //take away bullet power up
+                    bulletType = constants.BULLET_NORMAL;
+                    stage.removeAllEventListeners();
+                    stage.addEventListener("click", managers.Fire.stageButtonClick);
+                }
                 if (lives <= 0) {
                     changeState(constants.GAME_OVER_STATE)
                 }
-                if (collider2.name === "collectible") { score += 200; }
+                if (collider2.name === "collectible" && bulletType != constants.BULLET_SPREAD) {
+                    bulletType = constants.BULLET_SPREAD;
+                    stage.removeAllEventListeners();
+                    stage.addEventListener("click", managers.Fire.stageButtonClickSpread);
+                    score += 200;
+                }
+               // if (collider2.name === "collectible") { score += 200; }
             }
             else {
                 collider2.isColliding = false;
@@ -63,7 +76,7 @@ module managers {
             for (var cloud = constants.ENEMY_NUM; cloud > 0; cloud--) {
                 this.collisionCheck(this.plane , this.clouds[cloud]);
             }
-            this.collisionCheck(this.plane, this.island);
+            this.collisionCheck(this.plane, this.collectible);
         }
     }
 }  

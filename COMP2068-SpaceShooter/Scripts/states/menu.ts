@@ -23,7 +23,6 @@ module states {
         title = new objects.Label("Space Shooter", 400, 100);
         game.addChild(title);
 
-
          buttonStart = new objects.Button("button-sound", "start", constants.SCREEN_CENTRE_WIDTH, constants.SCREEN_CENTRE_HEIGHT);
         game.addChild(buttonStart);
         buttonStart.addEventListener("click", playButtonClicked);

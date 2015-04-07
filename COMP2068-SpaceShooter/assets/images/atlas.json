@@ -1,22 +1,21 @@
 {
-"images": ["atlas.png"],
+"images": ["assets/images/atlas.png"],
 "frames": [
 
     [506, 2, 150, 100], 
-    [727, 206, 21, 38], 
-    [670, 206, 55, 33], 
+    [455, 2, 21, 38], 
+    [373, 46, 55, 33], 
     [2, 2, 369, 81], 
     [506, 104, 150, 100], 
-    [373, 69, 20, 5], 
+    [588, 206, 22, 13], 
+    [430, 46, 22, 13], 
+    [478, 2, 20, 5], 
     [658, 2, 150, 100], 
-    [727, 206, 21, 38], 
-    [373, 2, 65, 65], 
     [810, 2, 150, 100], 
     [2, 85, 250, 166], 
     [254, 85, 250, 166], 
+    [373, 2, 80, 42], 
     [506, 206, 80, 42], 
-    [588, 206, 80, 42], 
-    [440, 2, 49, 60], 
     [658, 104, 150, 100], 
     [810, 104, 150, 100]
 ],
@@ -27,21 +26,20 @@
         "enemy-ship":[2], 
         "game-over-label":[3], 
         "instructions-button":[4], 
-        "laser":[5], 
-        "main-menu-button":[6], 
-        "pickup":[7], 
-        "plane":[8], 
+        "laser-down":[5], 
+        "laser-up":[6], 
+        "laser":[7], 
+        "main-menu-button":[8], 
         "select-button":[9], 
         "ship-select-button1":[10], 
         "ship-select-button2":[11], 
         "ship1":[12], 
         "ship2":[13], 
-        "sideplane":[14], 
-        "start-button":[15], 
-        "try-again-button":[16]
+        "start-button":[14], 
+        "try-again-button":[15]
 },
 "texturepacker": [
-        "SmartUpdateHash: $TexturePacker:SmartUpdate:17acb2a6f6a6f6bdb4ba25d099a0f28c:614d975f40f4024be34d5cc08481a233:cbce6b53f0f49e0bf15173c25c41f876$",
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:b3008ca3833b7ee834becccec21294d1:5d96228968a637ff73c2c3aef5c692be:cbce6b53f0f49e0bf15173c25c41f876$",
         "Created with TexturePacker (http://www.texturepacker.com) for EaselJS"
 ]
 }

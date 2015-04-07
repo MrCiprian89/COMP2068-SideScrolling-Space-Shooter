@@ -1,5 +1,5 @@
 ﻿module objects {
-    export class Island extends objects.GameObject {
+    export class collectible extends objects.GameObjectSprite {
 
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {

@@ -5,6 +5,7 @@
 /// <reference path="typings/stats/stats.d.ts" />
 /// <reference path="constants.ts" />
 /// <reference path="managers/assets.ts" />
+/// <reference path="managers/firing.ts" />
 
 /// <reference path="states/play.ts" />
 /// <reference path="states/menu.ts" />
@@ -12,12 +13,13 @@
 
 
 /// <reference path="objects/plane.ts" />
-/// <reference path="objects/island.ts" />
+/// <reference path="objects/collectible.ts" />
 /// <reference path="objects/cloud.ts" />
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/button.ts" />
+/// <reference path="objects/healthbar.ts" />
 
 
 //Game Variables
@@ -32,56 +34,33 @@ var fontAtlas: createjs.SpriteSheet;
 
 //Game objects
 var plane: objects.Plane;
-var collectible: objects.Island;
+var collectible: objects.collectible;
 var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
-var bullets: objects.Bullet[] = [];
-var bullet: objects.Bullet;
+var bullets: objects.BulletSpread[] = [];
+var bullet: objects.BulletSpread;
 var lifeBar: createjs.Text;
 var scoreBar: createjs.Text;
+var healthBar: objects.HealthBar;
+
+//Game Variables
 var score = 0;
 var lives = 3;
 var player = "ship";
+var bulletType = constants.BULLET_NORMAL;
+var level = 0;
 
 var currentState: number;
 var currentStateFunction;
+var shootingFunction;
 
-// asset manifest - array of asset objects
-var manifest = [
-    { id: "enemy", src: "assets/images/enemy-ship.png" },
-    { id: "collectible", src: "assets/images/pickup.png" },
-    { id: "background", src: "assets/images/sky.png" },
-    { id: "plane", src: "assets/images/plane.png" },
-    { id: "ship", src: "assets/images/ship1.png" },
-    { id: "ship2", src: "assets/images/ship2.png" },
-    { id: "bullet", src: "assets/images/laser.png" },
-    { id: "select", src: "assets/images/select-button.png" },
-    { id: "start", src: "assets/images/start-button.png" },
-    { id: "back", src: "assets/images/back-button.png" },
-    { id: "main-menu-button", src: "assets/images/main-menu-button.png" },
-    { id: "try-again-button", src: "assets/images/try-again-button.png" },
-    { id: "select-ship1-button", src: "assets/images/ship-select-button1.png" },
-    { id: "select-ship2-button", src: "assets/images/ship-select-button2.png" },
-    { id: "instructions-button", src: "assets/images/instructions-button.png" },
-    { id: "instructions", src: "assets/images/instructions.png" },
-    { id: "game-over", src: "assets/images/game-over-label.png" },
-
-    { id: "damage", src: "assets/audio/explosion.wav" },
-    { id: "laser-sound", src: "assets/audio/laser_fire.wav" },
-    { id: "enemy-hit-sound", src: "assets/audio/laser_hit.wav" },
-    { id: "collect", src: "assets/audio/pickup.wav" },
-    { id: "button-sound", src: "assets/audio/button_press.wav" },
-    { id: "select-button-sound", src: "assets/audio/button_select.wav" },
-    { id: "explosion", src: "assets/audio/button_select.wav" },
-    { id: "gameover-explosion-sound", src: "assets/audio/game-over-explosion.wav" }
-];
 
 function preload() {
     managers.Assets.init();
     assetLoader = new createjs.LoadQueue(); // instantiated assetLoader
     assetLoader.installPlugin(createjs.Sound);
     assetLoader.on("complete", init, this); // event handler-triggers when loading done
-    assetLoader.loadManifest(manifest); // loading my asset manifest
+    assetLoader.loadManifest(managers.Assets.manifest); // loading my asset manifest
     textureAtlas = new createjs.SpriteSheet(managers.Assets.loadSprites);
 } //function preload ends
 
@@ -134,8 +113,23 @@ function changeState(state: number): void {
 
         case constants.PLAY_STATE:
             // instantiate play screen
+            level = 1;
             currentStateFunction = states.playState;
             states.play();
+            break;
+
+        case constants.LEVEL_TWO:
+            // instantiate play screen
+            level = 2;
+            currentStateFunction = states.level2State;
+            states.play2();
+            break;
+
+        case constants.LEVEL_THREE:
+            // instantiate play screen
+            level = 3;
+            currentStateFunction = states.level3State;
+            states.play3();
             break;
 
         case constants.GAME_OVER_STATE:

@@ -1,11 +1,11 @@
 ﻿module objects {
 
-    export class Cloud extends objects.GameObject {
+    export class Cloud extends objects.GameObjectSprite {
   
         //Constructor/////////////////////////////////////////////////////////////////////////////
         constructor() {
-            super("enemy");
-            this.name = "cloud";
+            super("enemy-ship");
+            this.name = "enemy";
             this._dx = 5;
             this.soundString = "damage";
             this.reset();
