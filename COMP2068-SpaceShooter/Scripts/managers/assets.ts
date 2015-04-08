@@ -14,7 +14,7 @@
                 { id: "health-container", src: "assets/images/health-container.png" },
                 { id: "textureAtlas", src: "assets/images/atlas.png" },
                 { id: "collectible", src: "assets/images/pickup.png" },
-                { id: "background", src: "assets/images/sky.png" },
+                { id: "background", src: "assets/images/sky.gif" },
                 { id: "plane", src: "assets/images/plane.png" },
                 { id: "ship", src: "assets/images/ship1.png" },
                 { id: "ship2", src: "assets/images/ship2.png" },

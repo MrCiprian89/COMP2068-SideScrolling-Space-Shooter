@@ -57,11 +57,13 @@ module managers {
                 if (lives <= 0) {
                     changeState(constants.GAME_OVER_STATE)
                 }
-                if (collider2.name === "collectible" && bulletType != constants.BULLET_SPREAD) {
-                    bulletType = constants.BULLET_SPREAD;
-                    stage.removeAllEventListeners();
-                    stage.addEventListener("click", managers.Fire.stageButtonClickSpread);
+                if (collider2.name === "collectible") {
                     score += 200;
+                    if (bulletType != constants.BULLET_SPREAD) {
+                        bulletType = constants.BULLET_SPREAD;
+                        stage.removeAllEventListeners();
+                        stage.addEventListener("click", managers.Fire.stageButtonClickSpread);
+                    }            
                 }
                // if (collider2.name === "collectible") { score += 200; }
             }

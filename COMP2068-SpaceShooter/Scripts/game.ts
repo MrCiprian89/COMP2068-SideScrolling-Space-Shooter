@@ -42,6 +42,7 @@ var bullet: objects.BulletSpread;
 var lifeBar: createjs.Text;
 var scoreBar: createjs.Text;
 var healthBar: objects.HealthBar;
+var testLabel: objects.Label;
 
 //Game Variables
 var score = 0;
@@ -85,6 +86,16 @@ function init() {
 // Game Loop function that gets called every tick
 function gameLoop(event): void {
     stats.begin();
+    //LEVEL COMPLETE 1
+    if (score >= 100) {
+        currentState = constants.LEVEL_TWO;
+        changeState(currentState);
+    }
+    //LEVEL COMPLETE 2
+    if (score >= 5000) {
+        currentState = constants.LEVEL_THREE;
+        changeState(currentState);
+    }        
     currentStateFunction();
     stage.update();
     stats.end();
