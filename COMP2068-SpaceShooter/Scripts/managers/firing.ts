@@ -11,8 +11,7 @@
 
             bullets.unshift(bullet);
             game.addChild(bullets[0]);
-            createjs.Sound.play(bullet.soundString);
-          
+            createjs.Sound.play(bullet.soundString);      
     }
      public static stageButtonClickSpread() {
         bullet = new objects.BulletSpread(0);
