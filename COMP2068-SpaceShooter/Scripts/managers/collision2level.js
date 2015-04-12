@@ -1,45 +1,34 @@
-﻿/// <reference path="../objects/cloud.ts" />
+/// <reference path="../objects/cloud.ts" />
 /// <reference path="../objects/collectible.ts" />
 /// <reference path="../objects/plane.ts" />
-
-
-module managers {
+var managers;
+(function (managers) {
     // Collision Manager Class
-    export class Collision2 {
-        // class variables
-        private plane: objects.Plane;
-        private collectible: objects.collectible;
-        private ENEMYs = [];
-        private enemies = [];
-
-        constructor(plane: objects.Plane, collectible: objects.collectible, ENEMYs, enemies) {
+    var Collision2 = (function () {
+        function Collision2(plane, collectible, ENEMYs, enemies) {
+            this.ENEMYs = [];
+            this.enemies = [];
             this.plane = plane;
             this.collectible = collectible;
             this.ENEMYs = ENEMYs;
             this.enemies = enemies;
         }
-
         // Utility method - Distance calculation between two points
-        private distance(p1: createjs.Point, p2: createjs.Point): number {
-            var result: number = 0;
-            var xPoints: number = 0;
-            var yPoints: number = 0;
-
+        Collision2.prototype.distance = function (p1, p2) {
+            var result = 0;
+            var xPoints = 0;
+            var yPoints = 0;
             xPoints = p2.x - p1.x;
             xPoints = xPoints * xPoints;
-
             yPoints = p2.y - p1.y;
             yPoints = yPoints * yPoints;
-
             result = Math.sqrt(xPoints + yPoints);
-
             return result;
-        }
-
+        };
         // check collision between plane and any ENEMY object
-        private collisionCheck(collider1, collider2) {
-            var p1: createjs.Point = new createjs.Point();
-            var p2: createjs.Point = new createjs.Point();
+        Collision2.prototype.collisionCheck = function (collider1, collider2) {
+            var p1 = new createjs.Point();
+            var p2 = new createjs.Point();
             p1.x = collider1.x;
             p1.y = collider1.y;
             p2.x = collider2.x;
@@ -57,7 +46,7 @@ module managers {
                     stage.addEventListener("click", managers.Fire.stageButtonClick);
                 }
                 if (lives <= 0) {
-                    changeState(constants.GAME_OVER_STATE)
+                    changeState(constants.GAME_OVER_STATE);
                 }
                 if (collider2.name === "power-up-multi") {
                     score += 200;
@@ -67,16 +56,14 @@ module managers {
                         stage.addEventListener("click", managers.Fire.stageButtonClickSpread);
                     }
                 }
-                // if (collider2.name === "collectible") { score += 200; }
             }
             else {
                 collider2.isColliding = false;
                 collider1.isColliding = false;
             }
-        }
-
+        };
         // Utility Function to Check Collisions
-        update() {
+        Collision2.prototype.update = function () {
             for (var ENEMY = constants.ENEMY_NUM; ENEMY > 0; ENEMY--) {
                 this.collisionCheck(this.plane, this.ENEMYs[ENEMY]);
             }
@@ -84,6 +71,9 @@ module managers {
                 this.collisionCheck(this.plane, this.enemies[enemy]);
             }
             this.collisionCheck(this.plane, this.collectible);
-        }//END update()
-    }//END class
-}//END modules   
+        }; //END update()
+        return Collision2;
+    })();
+    managers.Collision2 = Collision2; //END class
+})(managers || (managers = {})); //END modules   
+//# sourceMappingURL=collision2level.js.map

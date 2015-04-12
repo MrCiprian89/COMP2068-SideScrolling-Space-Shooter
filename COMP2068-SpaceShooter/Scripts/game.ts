@@ -15,6 +15,7 @@
 /// <reference path="objects/plane.ts" />
 /// <reference path="objects/collectible.ts" />
 /// <reference path="objects/cloud.ts" />
+
 /// <reference path="objects/ocean.ts" />
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/label.ts" />
@@ -35,26 +36,33 @@ var fontAtlas: createjs.SpriteSheet;
 //Game objects
 var plane: objects.Plane;
 var collectible: objects.collectible;
-var enemies: objects.Cloud[] = [];
 var sky: objects.Ocean;
 var bullets: objects.BulletSpread[] = [];
 var bullet: objects.BulletSpread;
 var lifeBar: createjs.Text;
 var scoreBar: createjs.Text;
 var healthBar: objects.HealthBar;
-var testLabel: objects.Label;
 
 //Game Variables
 var score = 0;
 var lives = 3;
-var player = "ship";
+var player = "ship1";
 var bulletType = constants.BULLET_NORMAL;
 var level = 0;
 
 var currentState: number;
 var currentStateFunction;
-var shootingFunction;
+var stateChanged: boolean = false;
 
+//Game States
+//var gameOver: states.GameOver;
+//var play: states.Play;
+var menu: states.Menu;
+var instructions: states.Instruction;
+var characterSelect: states.CharacterSelect;
+var level1: states.Play;
+var level2: states.Level2State;
+var level3: states.Level3State;
 
 function preload() {
     managers.Assets.init();
@@ -73,80 +81,94 @@ function init() {
     stage.enableMouseOver(20); // Enable mouse events
     createjs.Ticker.setFPS(60); // 60 frames per second
     createjs.Ticker.addEventListener("tick", gameLoop);
-    stats.setMode(1);
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '810px';
-    stats.domElement.style.top = '0';
-    document.body.appendChild(stats.domElement);
+    setupStats();
     currentState = constants.MENU_STATE; //start the game in the menu screen
-    changeState(currentState); //will use the menu tate variable on the changestate function
+    changeState(currentState); //will use the menu state variable on the changestate function
 } //function init ends
 
 
 // Game Loop function that gets called every tick
 function gameLoop(event): void {
     stats.begin();
-    //LEVEL COMPLETE 1
-    if (score >= 100) {
+    currentStateFunction.update();
+    if (score >= 100 && level === 1) {
         currentState = constants.LEVEL_TWO;
-        changeState(currentState);
+        stateChanged = true;
     }
-    //LEVEL COMPLETE 2
-    if (score >= 5000) {
-        currentState = constants.LEVEL_THREE;
+    //if (score >= 300 && level === 2) {
+    //    currentState = constants.LEVEL_THREE;
+    //    stateChanged = true;
+    //}
+    if (stateChanged) {
         changeState(currentState);
-    }        
-    currentStateFunction();
+    }//END if
+
     stage.update();
     stats.end();
-}
+}//END gameLoop()
 
 function changeState(state: number): void {
     // Launch Various "screens"
+    stateChanged = false;
     switch (state) {
         case constants.MENU_STATE:
             // instantiate menu screen
-            currentStateFunction = states.menuState;
-            states.menu();
+            menu = new states.Menu();
+            currentStateFunction = menu;
             break;
 
         case constants.CHARACTER_SELECT:
             // instantiate menu screen
-            currentStateFunction = states.selectState;
-            states.selectOptions();
+            characterSelect = new states.CharacterSelect;
+            currentStateFunction = characterSelect;
             break;
-
+             
         case constants.INSTRUCTION:
             // instantiate menu screen
-            currentStateFunction = states.instructionState;
-            states.showInstructions();
+            instructions = new states.Instruction();
+            currentStateFunction = instructions;
             break;
 
         case constants.PLAY_STATE:
             // instantiate play screen
             level = 1;
-            currentStateFunction = states.playState;
-            states.play();
+            console.log("start stage 1");
+            level1 = new states.Play("stage1-font");
+            currentStateFunction = level1;
             break;
 
         case constants.LEVEL_TWO:
             // instantiate play screen
             level = 2;
-            currentStateFunction = states.level2State;
-            states.play2();
+            console.log("start stage 2");
+            currentStateFunction.clearLevel();
+            level2 = new states.Level2State
+            currentStateFunction = level2;
             break;
 
         case constants.LEVEL_THREE:
             // instantiate play screen
             level = 3;
-            currentStateFunction = states.level3State;
-            states.play3();
+            console.log("start stage 3");
+            currentStateFunction.clearLevel();
+            level3 = new states.Level3State;
+            currentStateFunction = level3;
             break;
 
         case constants.GAME_OVER_STATE:
             currentStateFunction = states.gameOverState;
             states.gameOver();//initialize the game over state
             break;
-    }
+    }//END switch
+}//END changeState
 
-} //function main ends
+
+    // UTILITY METHODS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    function setupStats() {
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '650px';
+        stats.domElement.style.top = '440px';
+        document.body.appendChild(stats.domElement);
+    }//END setup stats
+
