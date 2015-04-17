@@ -1,6 +1,7 @@
 ﻿#canvas{
     border: dashed 1px black;
 }
-html{
-    text-align:center   
+canvas{
+    text-align:center;
+        margin:auto;   
 }

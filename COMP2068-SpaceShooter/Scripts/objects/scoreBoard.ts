@@ -12,10 +12,10 @@
         //CONSTRUCTOR
         constructor() {
             this._livesLabel = new createjs.Text("Lives: ", constants.LABEL_FONT + " " + "consolas", constants.LABEL_COLOUR);
-            game.addChild(this._livesLabel);
+         //   game.addChild(this._livesLabel);
 
             this._scoreLabel = new createjs.Text("Score: ", constants.LABEL_FONT + " " + "consolas", constants.LABEL_COLOUR);
-            game.addChild(this._scoreLabel);
+       //     game.addChild(this._scoreLabel);
 
             this._scoreLabel.x = 350;
             this._scoreLabel.y = 100;

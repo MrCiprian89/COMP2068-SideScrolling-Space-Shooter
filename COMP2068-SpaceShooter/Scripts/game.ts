@@ -27,7 +27,6 @@
 var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
-var game: createjs.Container;
 var collision: managers.Collision;
 var stats: Stats = new Stats();
 var textureAtlas: createjs.SpriteSheet;
@@ -45,10 +44,14 @@ var healthBar: objects.HealthBar;
 
 //Game Variables
 var score = 0;
+var highscore = 0;
 var lives = 3;
 var player = "ship1";
 var bulletType = constants.BULLET_NORMAL;
 var level = 0;
+var tickEvent;
+var playerLastFired = 0;
+var playerFireDelay = 200;
 
 var currentState: number;
 var currentStateFunction;
@@ -63,14 +66,16 @@ var characterSelect: states.CharacterSelect;
 var level1: states.Play;
 var level2: states.Level2State;
 var level3: states.Level3State;
+var gameOverState: states.GameOver;
 
 function preload() {
     managers.Assets.init();
     assetLoader = new createjs.LoadQueue(); // instantiated assetLoader
     assetLoader.installPlugin(createjs.Sound);
-    assetLoader.on("complete", init, this); // event handler-triggers when loading done
+  
     assetLoader.loadManifest(managers.Assets.manifest); // loading my asset manifest
     textureAtlas = new createjs.SpriteSheet(managers.Assets.loadSprites);
+    assetLoader.on("complete", init, this); // event handler-triggers when loading done
 } //function preload ends
 
 //Initialize the game
@@ -84,6 +89,7 @@ function init() {
     setupStats();
     currentState = constants.MENU_STATE; //start the game in the menu screen
     changeState(currentState); //will use the menu state variable on the changestate function
+    
 } //function init ends
 
 
@@ -91,18 +97,18 @@ function init() {
 function gameLoop(event): void {
     stats.begin();
     currentStateFunction.update();
-    if (score >= 100 && level === 1) {
+    if (score >= 1250 && level === 1) {
         currentState = constants.LEVEL_TWO;
         stateChanged = true;
     }
-    //if (score >= 300 && level === 2) {
-    //    currentState = constants.LEVEL_THREE;
-    //    stateChanged = true;
-    //}
+    if (score >= 2500 && level === 2) {
+        currentState = constants.LEVEL_THREE;
+        stateChanged = true;
+    }
     if (stateChanged) {
         changeState(currentState);
     }//END if
-
+    tickEvent = event.time;
     stage.update();
     stats.end();
 }//END gameLoop()
@@ -132,7 +138,6 @@ function changeState(state: number): void {
         case constants.PLAY_STATE:
             // instantiate play screen
             level = 1;
-            console.log("start stage 1");
             level1 = new states.Play("stage1-font");
             currentStateFunction = level1;
             break;
@@ -140,7 +145,6 @@ function changeState(state: number): void {
         case constants.LEVEL_TWO:
             // instantiate play screen
             level = 2;
-            console.log("start stage 2");
             currentStateFunction.clearLevel();
             level2 = new states.Level2State
             currentStateFunction = level2;
@@ -149,15 +153,16 @@ function changeState(state: number): void {
         case constants.LEVEL_THREE:
             // instantiate play screen
             level = 3;
-            console.log("start stage 3");
             currentStateFunction.clearLevel();
             level3 = new states.Level3State;
             currentStateFunction = level3;
             break;
 
         case constants.GAME_OVER_STATE:
-            currentStateFunction = states.gameOverState;
-            states.gameOver();//initialize the game over state
+            level = 0;
+            currentStateFunction.clearLevel();
+            gameOverState = new states.GameOver;
+            currentStateFunction = gameOverState;
             break;
     }//END switch
 }//END changeState

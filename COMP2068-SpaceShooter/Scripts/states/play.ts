@@ -12,6 +12,7 @@
 /// <reference path="../constants.ts" />
 /// <reference path="../managers/firing.ts" />
 /// <reference path="../managers/collision.ts" />
+/// <reference path="../objects/boss.ts" />
 
 
 module states {
@@ -29,10 +30,18 @@ module states {
         public healthBar;
         public scoreBar;
         public firingMethod;
+        public lastFired;
+        public fireDelay: number;
 
         // play state Function
-        constructor(label){   
-       
+        constructor(label) {   
+            //RED found and added soundtrack ///////////////////////////////////////////
+            createjs.Sound.play("game-soundtrack", { loop: -1 });            
+            //Setup Game Variables
+            this.lastFired = 0;
+            this.fireDelay = 100;
+            bulletType = constants.BULLET_NORMAL;
+
             // Declare new Game Container
             this.game = new createjs.Container();
             //add sky to game
@@ -88,10 +97,11 @@ module states {
             this.scoreBar.y = 72;
             this.game.addChild(this.scoreBar);
 
-            this.firingMethod = new managers.Fire();
+            this.firingMethod = new managers.Fire(this);
             this.collision = new managers.Collision(this.healthBar, this.firingMethod);
 
             //activates the mouse click by firing
+            stage.removeAllEventListeners();
             stage.addEventListener("mousedown", this.firingMethod.stageButtonClick);
             stage.addChild(this.game);
         }//END constructor
@@ -99,6 +109,7 @@ module states {
         public update() {
 
             this.checkBulletCollisions(this.enemies);
+
             this.checkCollisions();
              this.scoreBar.text = "" + score;
             this.plane.update(); //updates plane's position16
@@ -107,6 +118,9 @@ module states {
 
             for (var enmey = constants.ENEMY_NUM; enmey > 0; enmey--) {
                 this.enemies[enmey].update(); //updates ENEMY's position
+             //   this.enemies[enmey].fireBullet();
+            //   this.enemies[enmey].checkBulletCollision(this.plane);
+            //    this.enemies[enmey].checkBulletOutOfBounds();
             } //for ends
 
             if (bullets.length >= 1) {
@@ -151,7 +165,8 @@ module states {
                     bullets.splice(index, 1);
                     this.game.removeChild(collider1);
                     collider2.reset();
-                    createjs.Sound.play("enemy-hit-sound");
+                    var hit = createjs.Sound.play("enemy-hit-sound");
+                    hit.volume = 0.5;
                     score += 10;
                 }
             }
